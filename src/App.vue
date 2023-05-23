@@ -1,17 +1,15 @@
 <template>
-<h1>This is a robo</h1>
-<HomePage />
+<h1>Robot</h1>
 <RobotBuilder />
 </template>
 
 <script>
 import RobotBuilder from './build/RobotBuilder';
-import HomePage from './components/HomePage';
+// import HomePage from './components/HomePage';
 
 export default {
     name: 'App',
     components: {
-        HomePage,
         RobotBuilder
     }
 }
