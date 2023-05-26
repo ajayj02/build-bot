@@ -1,7 +1,13 @@
 <template>
-<div>
+<div class="content">
+    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
         <div class="top part">
+            <div class="robot-name">{{ selectedRobot.head.title }}
+                <span v-show="selectedRobot.head.onSale" class="sale">
+                    Sale!
+                </span>
+            </div>
             <img v-bind:src="selectedRobot.head.src" title="head" />
             <button v-on:click="selectPreviousHead()" class="prev-selector">&#9668;</button>
             <button v-on:click="selectNextHead()" class="next-selector">&#9658;</button>
@@ -19,7 +25,7 @@
             <button v-on:click="selectNextTorsos()" class="next-selector">&#9658;</button>
         </div>
         <div class="right part">
-            <img v-bind:src="selectedRobot.rightArm.src" title="left arm" /> 
+            <img v-bind:src="selectedRobot.rightArm.src" title="left arm" />
             <button v-on:click="selectPreviousRightArm()" class="prev-selector">&#9650;</button>
             <button v-on:click="selectNextRightArm()" class="next-selector">&#9660;</button>
         </div>
@@ -52,6 +58,7 @@ export default ({
     data() {
         return {
             availableParts,
+            cart: [],
             selectedHeadIndex: 0,
             selectedBasesIndex: 0,
             selectedLeftArmIndex: 0,
@@ -60,8 +67,8 @@ export default ({
         };
     },
     computed: {
-        selectedRobot(){
-            return{
+        selectedRobot() {
+            return {
                 head: availableParts.heads[this.selectedHeadIndex],
                 leftArm: availableParts.arms[this.selectedLeftArmIndex],
                 rightArm: availableParts.arms[this.selectedRightArmIndex],
@@ -71,6 +78,12 @@ export default ({
         }
     },
     methods: {
+        addToCart() {
+            const robot = this.selectedRobot;
+            const cost = robot.head.cost + robot.leftArm.cost + robot.torso.cost + robot.base.cost +
+                robot.rightArm.cost;
+        },
+
         selectNextHead() {
             this.selectedHeadIndex = getNextValidIndex(this.selectedHeadIndex, availableParts.heads.length);
         },
@@ -212,5 +225,29 @@ export default ({
 
 .right .next-selector {
     right: -3px;
+}
+
+.robot-name {
+    position: absolute;
+    top: -25px;
+    text-align: center;
+    width: 100%;
+}
+
+.sale {
+    color: red;
+}
+
+.content {
+    postion: relative;
+
+}
+
+.add-to-cart {
+    position: absolute;
+    right: 30px;
+    width: 220px;
+    padding: 3px;
+    font-size: 16px;
 }
 </style>
